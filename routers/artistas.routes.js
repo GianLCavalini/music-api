@@ -9,13 +9,31 @@ router.post("/add-artistas", async (req, res) => {
 		const createdObj = await ArtistasModel.create(artistaObj);
 
 		return res.status(201).json(createdObj);
-	} catch (error) {
+	} 
+    catch (error) {
 		console.error(error);
 		return res.status(500).json(error);
 	}
 });
 
+router.put("/add-album/:artistaId", async (req, res) => {
+   
+   
+   try{
+    const { artistaId } = req.params;
+    const albumObj = req.body;
 
+    const createdAlbum = await ArtistasModel.updateOne(
+        { _id: artistaId },
+    {$push: { albuns: albumObj }}, 
+    );
+
+        return res.status(200).json(createdAlbum)
+    } catch(error){
+        console.error(error);
+		return res.status(500).json(error); 
+    }
+}) 
 
 
 router.get("/:artistaId", async (req, res) => {
