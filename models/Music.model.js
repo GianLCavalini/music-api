@@ -4,7 +4,6 @@ const musicSchema = new Schema({
   title: {
     type: String,
     required: true,
-    match: /^[a-z0-9_-]{3,15}$/,
     validate: { validator: (s) => s.length >= 1 },
   },
   duration: { type: Number, min: 1, max: 1200, required: true },
