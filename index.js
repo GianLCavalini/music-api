@@ -18,6 +18,9 @@ app.use("/artistas", artistasRouter);
 
 
 
+const playlistRouter = require("./routers/playlist.routes");
+app.use("/playlist", playlistRouter);
+
 app.listen(Number(process.env.PORT), () => {
   console.log("Server up! PORT:", process.env.PORT);
 });
