@@ -7,8 +7,6 @@ router.post("/signup", async (req, res) => {
 
     const createdObj = await UserModel.create(userObj);
 
-    delete createdObj.passwordHash;
-
     return res.status(201).json(createdObj);
   } catch (error) {
     console.error(error);

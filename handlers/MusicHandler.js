@@ -4,9 +4,11 @@ const MusicModel = require("../models/Music.model");
 exports.addMusic = async (req, res) => {
   try {
     const musicObj = req.body;
+    // La no front, a gente precisa achar uma forma de pegar o id dos colaboradores e enviar no form
     const response = await MusicModel.create(musicObj);
     return res.status(201).json(response);
   } catch (err) {
+    console.log(err);
     return res.status(500).json(err);
   }
 };
@@ -50,5 +52,22 @@ exports.getAllMusic = async (req, res) => {
     return res.status(200).json(response);
   } catch (err) {
     return res.status(500).json(err);
+  }
+};
+
+exports.likeMusic = async (req, res) => {
+  try {
+    const { userId, musicId } = req.params;
+
+    const foundedMusic = await MusicModel.findOneAndUpdate(
+      { _id: musicId },
+      { $push: { usersLikeThisSong: userId } },
+      { runValidators: true, new: true }
+    );
+
+    return res.status(200).json(foundedMusic);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
   }
 };

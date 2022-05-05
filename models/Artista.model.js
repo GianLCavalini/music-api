@@ -1,24 +1,14 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 
-const artistasSchema = new Schema({
-
-    artista: {type: String, required: true, trim: true},
-    musicas_populares: [],
-    albuns: [{
-        album_name: {type: String, required: true, trim: true},
-        released_data: {type: String, required: true, trim: true},
-        musics: [],
-        img: {type: String, required: true, trim: true}
-
-    }],
-    categoria: {type: String, required: true, trim: true},
-    sobre: {type: String, required: true, trim: true},
-    img: {type: String, required: true, trim: true}
-
-
+const artistaSchema = new Schema({
+  artista: { type: String, required: true, trim: true },
+  all_musics: [{ type: mongoose.Types.ObjectId, ref: "Music" }],
+  albuns: [{ type: mongoose.Types.ObjectId, ref: "Album" }],
+  genero: [{ type: String, enum: ["rock", "pop", "proibidão"] }],
+  sobre: { type: String, required: true, trim: true },
+  img: { type: String, required: true, trim: true },
 });
 
-const ArtistasModel = model("Artistas", artistasSchema );
+const ArtistaModel = model("Artista", artistaSchema);
 
-module.exports = ArtistasModel;
-
+module.exports = ArtistaModel;

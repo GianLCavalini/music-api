@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, default: mongoose } = require("mongoose");
 
 const userSchema = new Schema({
   name: { type: String, required: true, trim: true },
@@ -12,14 +12,10 @@ const userSchema = new Schema({
   },
   passwordHash: { type: String, required: true },
   age: { type: Number, required: true },
-  playlist: [],
-  favSongs: [],
+  playlists: [{ type: mongoose.Types.ObjectId, ref: "Playlist" }],
+  favSongs: [{ type: mongoose.Types.ObjectId, ref: "Music" }],
 });
 
 const UserModel = model("User", userSchema);
 
 module.exports = UserModel;
-
-// Playlist
-// Musicas
-// Artistas
