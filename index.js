@@ -16,7 +16,8 @@ app.use("/music", musicRouter);
 const artistasRouter = require("./routers/artistas.routes");
 app.use("/artistas", artistasRouter);
 
-
+const albumRouter = require("./routers/album.routes");
+app.use("/album", albumRouter);
 
 const playlistRouter = require("./routers/playlist.routes");
 app.use("/playlist", playlistRouter);
