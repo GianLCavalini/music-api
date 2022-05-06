@@ -4,6 +4,9 @@ const AlbumModel = require("../models/Album.model");
 const ArtistaModel = require("../models/Artista.model")
 
 router.post("/add-album/:artistaId", async (req, res) => {
+    
+    
+    
     try {
 
         const createdAlbum = await AlbumModel.create ({
@@ -11,13 +14,19 @@ router.post("/add-album/:artistaId", async (req, res) => {
             musics: req.body.artistaId,
             main_artist: req.body.artistaId,
             collaborators: req.body.artistaId
+             
         });
+
+       
+
 
         const foundedArtist = await ArtistaModel.findOneAndUpdate(
             { _id: req.params.artistaId },
-            { $push: { albuns: createdAlbum } },
+            { $push: { albuns: [createdAlbum._id] } },
             { runValidators: true, new: true }
           );
+
+
         return res.status(200).json(createdAlbum)
 
     } catch (err) {
@@ -39,7 +48,23 @@ router.get("/:albumId", async (req, res) => {
 	}
 })
 
-
+router.delete("/delete-album/:albumId/:artistaId", async (req, res) => {
+    try {
+      const deletedAlbum = await AlbumModel.deleteOne({
+        _id: req.params.albumId,
+      });
+  
+      const updatedUser = await ArtistaModel.findOneAndUpdate(
+        { _id: req.params.artistaId },  
+        { $pullAll: { albuns: [req.params.albumId] } }
+      );
+  
+      return res.status(200).json(deletedAlbum);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json(err);
+    }
+  });
 
 
 
